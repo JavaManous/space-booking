@@ -1,0 +1,72 @@
+package view;
+
+import java.util.Scanner;
+
+import model.Menu;
+import model.Sala;
+
+public class MenuGeral {
+    private Scanner input;
+    private SalaView salaView;
+
+    public MenuGeral(Scanner input, SalaView salaView) {
+        this.input = input;
+        this.salaView = salaView;
+        this.iniciarMenu();
+    }
+
+    private void limparMenu() {
+        System.out.print("\033c");
+    }
+
+    private void mostrarMenu() {
+        System.out.println("-- Menu Geral --");
+        System.out.println("1. Reservas");
+        System.out.println("2. Salas");
+        System.out.println("3. Usuarios");
+        System.out.println("4. Equipamentos");
+        System.out.println("5. Sair");
+        System.out.println("\nEscolha uma opção:");
+    }
+
+    public void iniciarMenu() {
+
+        int opcao = 0;
+        boolean menu = true;
+
+        while (menu) {
+            this.limparMenu();
+            this.mostrarMenu();
+            opcao = input.nextInt();
+
+            switch (opcao) {
+                case 1:
+                    // Chamar o menu de reservas
+                    break;
+                case 2:
+                    // Chamar o menu de salas
+                    salaView.inicarMenu(input);
+                    input.nextLine();
+                    break;
+                case 3:
+                    // Chamar o menu de usuarios
+                    break;
+                case 4:
+                    // Chamar o menu de equipamentos
+                    break;
+                case 5:
+                    menu = false;
+                    System.out.println("Saindo...");
+                    break;
+                default:
+                    this.limparMenu();
+                    System.out.println("Opção inválida. Tente novamente.");
+                    input.nextLine();
+                    break;
+            }
+        }
+
+        System.out.println("Obrigado por usar o sistema!");
+    }
+
+}
