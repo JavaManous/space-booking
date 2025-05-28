@@ -37,7 +37,9 @@ public class MenuGeral {
         while (menu) {
             this.limparMenu();
             this.mostrarMenu();
+
             opcao = input.nextInt();
+            input.nextLine(); // <-- Consome o '\n' deixado pelo nextInt()
 
             switch (opcao) {
                 case 1:
@@ -60,8 +62,9 @@ public class MenuGeral {
                     break;
                 default:
                     this.limparMenu();
-                    System.out.println("Opção inválida. Tente novamente.");
                     input.nextLine();
+
+                    System.out.println("Opção inválida. Tente novamente.");
                     break;
             }
         }

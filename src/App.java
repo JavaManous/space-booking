@@ -5,7 +5,7 @@ import view.*;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        System.out.println("Hello, World!");
+        System.out.println("Olá usuário, ?!");
 
         SalaController salaController = new SalaController();
         SalaView salaView = new SalaView(salaController);

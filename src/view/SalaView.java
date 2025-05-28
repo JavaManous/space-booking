@@ -28,10 +28,11 @@ public class SalaView extends Menu {
         int opcao = 0;
         boolean menu = true;
 
-        while (menu) {
+        do {
             mostrarMenu();
 
             opcao = input.nextInt();
+            input.nextLine();
 
             switch (opcao) {
                 case 1:
@@ -55,7 +56,8 @@ public class SalaView extends Menu {
                     break;
                 default:
                     System.out.println("Opção inválida. Tente novamente.");
+                    break;
             }
-        }
+        } while (menu);
     }
 }
