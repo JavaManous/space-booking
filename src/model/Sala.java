@@ -1,6 +1,8 @@
 package model;
 
-public class Sala {
+import java.io.Serializable;
+
+public class Sala implements Serializable{
     private int numeroSala;
     private int capacidadePessoas;
     private String[] equipamentos; // deve ser um array de equipamentos: Equipamento

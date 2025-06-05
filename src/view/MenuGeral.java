@@ -2,9 +2,6 @@ package view;
 
 import java.util.Scanner;
 
-import model.Menu;
-import model.Sala;
-
 public class MenuGeral {
     private Scanner input;
     private SalaView salaView;
