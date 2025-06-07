@@ -10,8 +10,13 @@ import model.Sala;
 
 public class SalaController implements Controller {
 
-    public void criar() {
-        Scanner input = new Scanner(System.in);
+    private Scanner input;
+
+    public void setInput(Scanner input) {
+        this.input = input;
+    }
+
+    public void criar() throws Exception {
         System.out.println("Digite o número da sala:");
         int numeroSala = input.nextInt();
 
@@ -23,15 +28,12 @@ public class SalaController implements Controller {
         Sala novaSala = SalaFactory.criarSala(numeroSala, capacidade, equipamentosStr);
 
         SalaDAO.salvarSala(novaSala);
-        // input.close();
     }
 
-    public void buscar() {
-        Scanner input = new Scanner(System.in);
+    public void buscar() throws Exception {
 
         System.out.println("Digite o número da sala que deseja buscar:");
         int numeroSala = input.nextInt();
-        input.close();
 
         Sala sala = SalaDAO.buscarSala(numeroSala);
         if (sala != null) {
@@ -42,22 +44,30 @@ public class SalaController implements Controller {
         }
     }
 
-    public void listar() {
+    public void listar() throws Exception {
         // Implementação do método listar
-        System.out.println("Listando todas as salas:");
+        try {
+            List<Sala> salas = SalaDAO.listarSalas();
+            if (salas.isEmpty()) {
+                System.out.println("Nenhuma sala cadastrada.");
+                return;
+            }
 
-        List<Sala> salas = SalaDAO.listarSalas();
-        for (Sala sala : salas) {
-            System.out.println(sala.toString());
+            for (Sala sala : salas) {
+                System.out.println("Imprimindo salas..");
+                System.out.println(sala.toString());
+            }
+        } catch (Exception e) {
+            System.err.println("Erro ao listar salas: \n" + e.getMessage() + "\n");
         }
 
     }
 
-    public void editar() {
+    public void editar() throws Exception {
         // Implementação do método editar
     }
 
-    public void deletar() {
+    public void deletar() throws Exception {
         // Implementação do método deletar
     }
 

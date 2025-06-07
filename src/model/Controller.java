@@ -2,14 +2,14 @@ package model;
 
 public interface Controller {
 
-    public void criar();
+    public void criar() throws Exception;
 
-    public void buscar();
+    public void buscar() throws Exception;
 
-    public void listar();
+    public void listar() throws Exception;
 
-    public void editar();
+    public void editar() throws Exception;
 
-    public void deletar();
+    public void deletar() throws Exception;
 
 }

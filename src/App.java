@@ -1,5 +1,6 @@
 import java.util.Scanner;
 
+import controller.ClienteController;
 import controller.SalaController;
 import view.*;
 
@@ -10,8 +11,11 @@ public class App {
         SalaController salaController = new SalaController();
         SalaView salaView = new SalaView(salaController);
 
+        ClienteController clienteController = new ClienteController();
+        ClienteView clienteView = new ClienteView(clienteController);
+
         Scanner input = new Scanner(System.in);
-        MenuGeral menu = new MenuGeral(input, salaView);
+        MenuGeral menu = new MenuGeral(input, salaView, clienteView);
         menu.iniciarMenu();
     }
 }

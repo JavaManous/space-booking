@@ -28,36 +28,42 @@ public class SalaView extends Menu {
         int opcao = 0;
         boolean menu = true;
 
+        salaController.setInput(input);
+
         do {
             mostrarMenu();
 
             opcao = input.nextInt();
             input.nextLine();
-
-            switch (opcao) {
-                case 1:
-                    salaController.criar();
-                    break;
-                case 2:
-                    salaController.buscar();
-                    break;
-                case 3:
-                    salaController.listar();
-                    break;
-                case 4:
-                    salaController.editar();
-                    break;
-                case 5:
-                    salaController.deletar();
-                    break;
-                case 6:
-                    menu = false;
-                    System.out.println("Teste...");
-                    break;
-                default:
-                    System.out.println("Opção inválida. Tente novamente.");
-                    break;
+            try {
+                switch (opcao) {
+                    case 1:
+                        salaController.criar();
+                        break;
+                    case 2:
+                        salaController.buscar();
+                        break;
+                    case 3:
+                        salaController.listar();
+                        break;
+                    case 4:
+                        salaController.editar();
+                        break;
+                    case 5:
+                        salaController.deletar();
+                        break;
+                    case 6:
+                        menu = false;
+                        System.out.println("Teste...");
+                        break;
+                    default:
+                        System.out.println("Opção inválida. Tente novamente.");
+                        break;
+                }
+            } catch (Exception e) {
+                // TODO: handle exception
             }
+
         } while (menu);
     }
 }
