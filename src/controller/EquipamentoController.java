@@ -1,7 +1,6 @@
 package controller;
 
 import dal.EquipamentoDAO;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -17,8 +16,7 @@ public class EquipamentoController implements Controller {
         this.input = input;
     }
 
-    @Override
-    public void criar() throws Exception {
+    public Equipamento criarEquipamento() {
         System.out.println("Digite o nome do equipamento: ");
         String nome = input.nextLine();
 
@@ -35,7 +33,12 @@ public class EquipamentoController implements Controller {
         float preco = input.nextFloat();
         input.nextLine();
 
-        Equipamento equipamento = EquipamentoFactory.criarEquipamento(nome, tipo, id, quantidade, preco);
+        return EquipamentoFactory.criarEquipamento(nome, tipo, id, quantidade, preco);
+    }
+
+    @Override
+    public void criar() throws Exception {
+        Equipamento equipamento = criarEquipamento();
         EquipamentoDAO.salvarEquipamento(equipamento);
         System.out.println("Equipamento criado!");
     }

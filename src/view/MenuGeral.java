@@ -5,10 +5,12 @@ import java.util.Scanner;
 public class MenuGeral {
     private Scanner input;
     private SalaView salaView;
+    private ClienteView clienteView;
 
-    public MenuGeral(Scanner input, SalaView salaView) {
+    public MenuGeral(Scanner input, SalaView salaView, ClienteView clienteView) {
         this.input = input;
         this.salaView = salaView;
+        this.clienteView = clienteView;
         this.iniciarMenu();
     }
 
@@ -48,7 +50,8 @@ public class MenuGeral {
                     input.nextLine();
                     break;
                 case 3:
-                    // Chamar o menu de usuarios
+                    clienteView.iniciarMenu(input);
+                    input.nextLine();
                     break;
                 case 4:
                     // Chamar o menu de equipamentos
