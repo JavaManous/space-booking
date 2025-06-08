@@ -2,13 +2,14 @@ package model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Sala implements Serializable{
     private int numeroSala;
     private int capacidadePessoas;
-    private ArrayList<Equipamento> equipamentos;
+    private List<Equipamento> equipamentos = new ArrayList<>();
     
-    public Sala(int numeroSala, int capacidadePessoas, ArrayList<Equipamento> equipamentos) {
+    public Sala(int numeroSala, int capacidadePessoas, List<Equipamento> equipamentos) {
         this.numeroSala = numeroSala;
         this.capacidadePessoas = capacidadePessoas;
         this.equipamentos = equipamentos;
@@ -30,11 +31,11 @@ public class Sala implements Serializable{
         this.capacidadePessoas = capacidadePessoas;
     }
 
-    public ArrayList<Equipamento> getEquipamentos() {
+    public List<Equipamento> getEquipamentos() {
         return equipamentos;
     }
 
-    public void setEquipamentos(ArrayList<Equipamento> equipamentos) {
+    public void setEquipamentos(List<Equipamento> equipamentos) {
         this.equipamentos = equipamentos;
     }
 

@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -7,6 +8,7 @@ import dal.SalaDAO;
 import factory.SalaFactory;
 import model.Controller;
 import model.Sala;
+import model.Equipamento;
 
 public class SalaController implements Controller {
 
@@ -23,10 +25,20 @@ public class SalaController implements Controller {
         System.out.println("Digite a capacidade de pessoas da sala:");
         int capacidade = input.nextInt();
 
-        System.out.println("Selecione os equipamentos da sala (separados por vírgula):");
-        String[] equipamentosStr = input.next().split(",");
-        Sala novaSala = SalaFactory.criarSala(numeroSala, capacidade, equipamentosStr);
+        System.out.println("Quantos equipamentos deseja adicionar?");
+        int quantidadeEquipamento = input.nextInt();
+        input.nextLine();
 
+        List<Equipamento> equipamentos = new ArrayList<>();
+        EquipamentoController equipamentoController = new EquipamentoController();
+        equipamentoController.setInput(this.input);
+
+        for (int i = 0; i < quantidadeEquipamento; i++) {
+            Equipamento equipamento = equipamentoController.criarEquipamento();
+            equipamentos.add(equipamento);
+        }
+
+        Sala novaSala = SalaFactory.criarSala(numeroSala, capacidade, equipamentos);
         SalaDAO.salvarSala(novaSala);
     }
 
