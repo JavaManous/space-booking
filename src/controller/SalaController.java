@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import dal.EquipamentoDAO;
 import dal.SalaDAO;
 import factory.SalaFactory;
 import model.Controller;
@@ -25,17 +26,37 @@ public class SalaController implements Controller {
         System.out.println("Digite a capacidade de pessoas da sala:");
         int capacidade = input.nextInt();
 
+        try {
+            List<Equipamento> equipamentosDisponiveis = EquipamentoDAO.listarEquipamentos();
+            if (equipamentosDisponiveis.isEmpty()) {
+                System.out.println("Nenhum equipamento cadastrado no sistema.");
+            } else {
+                System.out.println("Equipamentos disponíveis:");
+                for (Equipamento eq : equipamentosDisponiveis) {
+                    System.out.println("ID: " + eq.getId() + " | Nome: " + eq.getNome() + " | Tipo: " + eq.getTipo());
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao listar equipamentos: " + e.getMessage());
+        }
+
         System.out.println("Quantos equipamentos deseja adicionar?");
         int quantidadeEquipamento = input.nextInt();
         input.nextLine();
 
         List<Equipamento> equipamentos = new ArrayList<>();
-        EquipamentoController equipamentoController = new EquipamentoController();
-        equipamentoController.setInput(this.input);
-
         for (int i = 0; i < quantidadeEquipamento; i++) {
-            Equipamento equipamento = equipamentoController.criarEquipamento();
-            equipamentos.add(equipamento);
+            System.out.println("Digite o ID do equipamento que deseja adicionar à sala:");
+            int idEquipamento = input.nextInt();
+            input.nextLine();
+            Equipamento equipamento = EquipamentoDAO.buscarEquipamento(idEquipamento);
+            if (equipamento != null) {
+                equipamentos.add(equipamento);
+                System.out.println("Equipamento adicionado.");
+            } else {
+                System.out.println("Equipamento não encontrado. Tente novamente.");
+                i--; 
+            }
         }
 
         Sala novaSala = SalaFactory.criarSala(numeroSala, capacidade, equipamentos);

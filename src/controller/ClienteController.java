@@ -53,7 +53,7 @@ public class ClienteController implements Controller {
             System.out.println("Detalhes do Cliente: ");
             System.out.println(cliente);
         } else {
-            System.out.println("Clietne não encontrado: " + id);
+            System.out.println("Cliente não encontrado: " + id);
         }
     }
 
