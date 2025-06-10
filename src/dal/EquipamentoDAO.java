@@ -16,7 +16,7 @@ public abstract class EquipamentoDAO {
         List<Equipamento> equipamentos = listarEquipamentos();
         equipamentos.add(equipamento);
 
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(CAMINHO + "/equipamentos.ser"))) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(CAMINHO + "/equipamento.ser"))) {
             oos.writeObject(equipamentos);
         }
     }

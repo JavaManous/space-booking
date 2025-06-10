@@ -85,8 +85,12 @@ public class Cliente extends Pessoa {
 
     @Override
     public String toString() {
-        return "Cliente [dataCadastro=" + dataCadastro + ", getId()=" + getId() + ", getNome()=" + getNome()
-                + ", getEmail()=" + getEmail() + ", getEndereco()=" + getEndereco() + ", getCpf()=" + getCpf()
-                + ", getTelefone()=" + getTelefone() + "]";
+        return "Cliente [dataCadastro=" + dataCadastro + ", id=" + getId() + ", nome=" + getNome()
+                + ", email=" + getEmail() + ", endereco=" + getEndereco() + ", cpf=" + getCpf()
+                + ", telefone=" + getTelefone() + "]";
+    }
+
+    public Cliente fromString(String clienteStr) {
+        throw new UnsupportedOperationException("Método não implementado");
     }
 }

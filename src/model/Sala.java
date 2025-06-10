@@ -42,9 +42,24 @@ public class Sala implements Serializable{
     @Override
     public String toString() {
         return "Sala{" +
-                "numeroSala='" + numeroSala + '\'' +
-                ", capacidadePessoas=" + capacidadePessoas +
-                ", equipamentos=" + equipamentos +
+                "numeroSala='" + this.numeroSala + '\'' +
+                ", capacidadePessoas=" + this.capacidadePessoas +
+                ", equipamentos=" + this.equipamentos +
                 '}';
     }
+
+    public Sala fromString(String salaStr) {
+        salaStr = salaStr.replace("Sala{", "");
+
+        String[] campos = salaStr.split(", ");
+
+        
+        
+        Sala sala = new Sala(
+            Integer.parseInt(campos[0]), Integer.parseInt(campos[1]), new ArrayList<>()
+        );
+
+        return sala;
+    }
+
 }

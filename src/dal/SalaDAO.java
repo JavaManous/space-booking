@@ -8,41 +8,45 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
-
 import model.Sala;
 import utils.Log;
 
 public abstract class SalaDAO {
     private static final String CAMINHO = "./dados";
+    private static final String ARQUIVO = "/sala.ser";
 
     public static void salvarSala(Sala sala) throws IOException {
         File diretorio = new File(CAMINHO);
         diretorio.mkdirs();
 
-        List<Sala> salas = new ArrayList<Sala>();
-        try {
-            salas = listarSalas();
-            salas.add(sala);
-        } catch (Exception e) {
-            System.err.println("Erro ao listar salas: \n" + e.getMessage() + "\n");
-        }
-
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(CAMINHO + "/sala.ser", true))) {
-            oos.writeObject(salas);
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(CAMINHO + ARQUIVO, true))) {
+            oos.writeObject(sala);
         }
 
         System.err.println("Salvando sala: " + sala.toString());
     }
 
     public static Sala buscarSala(int numeroSala) {
-        // throw new UnsupportedOperationException("Método não implementado");
 
-        Log.setError("tESTE AJSDFKANMSFENMAEWGMNAGE");
+        try {
+            List<Sala> salas = listarSalas();
+            Sala sala = null;
+            for (Sala t : salas) {
+                if (t.getNumeroSala() == numeroSala) {
+                    sala = t;
+                    break;
+                }
+            }
+            return sala;
+        } catch (Exception erro) {
+            Log.setError("Erro ao buscar sala: \n" + erro.getMessage() + "\n");
+        }
+
         return null;
     }
 
     public static List<Sala> listarSalas() throws IOException, ClassNotFoundException {
-        File arquivo = new File(CAMINHO + "/salas.ser");
+        File arquivo = new File(CAMINHO + ARQUIVO);
         if (!arquivo.exists()) {
             return new ArrayList<>();
         }
@@ -50,19 +54,40 @@ public abstract class SalaDAO {
         try (FileInputStream fileIn = new FileInputStream(arquivo);
                 ObjectInputStream in = new ObjectInputStream(fileIn)) {
 
-            List<Sala> objetoLido = (List<Sala>) in.readObject();
-            System.out.println("Objeto lido: " + objetoLido);
+            List<Sala> salasLidas = (List<Sala>) in.readObject();
 
+            return salasLidas;
+        } catch (Exception erro) {
+            Log.setError(erro.getMessage());
         }
-        return new ArrayList<Sala>();
+
+        return null;
+    }
+
+    public static void editarSala(int numeroSala, Sala salaAtualizada) throws IOException {
+
+        try {
+            List<Sala> salas = listarSalas();
+            for (int i = 0; i < salas.size(); i++) {
+                if (salas.get(i).getNumeroSala() == salaAtualizada.getNumeroSala()) {
+                    salas.set(i, salaAtualizada);
+                    break;
+                }
+            }
+            try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(CAMINHO + ARQUIVO))) {
+                oos.writeObject(salas);
+            }
+        } catch (Exception erro) {
+            Log.setError(erro.getMessage());
+        }
 
     }
 
-    public static void editarSala(int numeroSala, Sala sala) throws IOException {
-        throw new UnsupportedOperationException("Método não implementado");
-    }
-
-    public static void deletarSala(int numeroSala) throws IOException {
-        throw new UnsupportedOperationException("Método não implementado");
+    public static void deletarSala(int numeroSala) throws IOException, ClassNotFoundException {
+        List<Sala> salas = listarSalas();
+        salas.removeIf(sala -> sala.getNumeroSala() == numeroSala);
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(CAMINHO + ARQUIVO))) {
+            oos.writeObject(salas);
+        }
     }
 }
