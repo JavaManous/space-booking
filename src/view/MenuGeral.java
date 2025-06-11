@@ -6,8 +6,9 @@ public class MenuGeral {
     private Scanner input;
     private SalaView salaView;
     private ClienteView clienteView;
+    private EquipamentoView equipamentoView;
 
-    public MenuGeral(Scanner input, SalaView salaView, ClienteView clienteView) {
+    public MenuGeral(Scanner input, SalaView salaView, ClienteView clienteView, EquipamentoView equipamentoView) {
         this.input = input;
         this.salaView = salaView;
         this.clienteView = clienteView;
@@ -54,7 +55,8 @@ public class MenuGeral {
                     input.nextLine();
                     break;
                 case 4:
-                    // Chamar o menu de equipamentos
+                    equipamentoView.iniciarMenu(input);
+                    input.nextLine();
                     break;
                 case 5:
                     menu = false;

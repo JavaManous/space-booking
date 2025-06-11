@@ -6,6 +6,7 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
+import dal.EquipamentoDAO;
 import dal.SalaDAO;
 import factory.SalaFactory;
 import model.Controller;
@@ -13,36 +14,26 @@ import model.Sala;
 import utils.Log;
 import model.Equipamento;
 
-public class SalaController implements Controller {
+public class SalaController {
 
-    private Scanner input;
-
-    public void setInput(Scanner input) {
-        this.input = input;
-    }
-
-    public void criar() throws Exception {
-        System.out.println("Digite o número da sala:");
-        int numeroSala = input.nextInt();
-
-        System.out.println("Digite a capacidade de pessoas da sala:");
-        int capacidade = input.nextInt();
-
-        System.out.println("Quais equipamentos a sala deve ter?");
-        int quantidadeEquipamento = input.nextInt();
-        input.nextLine();
-
+    public void criar(int numeroSala, int capacidade, List<Integer> idsEquipamentos) throws Exception {
         List<Equipamento> equipamentos = new ArrayList<>();
-        EquipamentoController equipamentoController = new EquipamentoController();
-        equipamentoController.setInput(this.input);
+        if (idsEquipamentos.isEmpty()) {
+            equipamentos = null;
+        } else {
 
-        for (int i = 0; i < quantidadeEquipamento; i++) {
-            Equipamento equipamento = equipamentoController.criarEquipamento();
-            equipamentos.add(equipamento);
+            for (int id : idsEquipamentos) {
+                Equipamento eq = EquipamentoDAO.buscarPorId(id);
+                if (eq != null) {
+                    equipamentos.add(eq);
+                }
+            }
         }
-
         Sala novaSala = SalaFactory.criarSala(numeroSala, capacidade, equipamentos);
-        SalaDAO.salvarSala(novaSala);
+
+        List<Sala> salas = SalaDAO.carregar();
+        salas.add(novaSala);
+        SalaDAO.salvar(salas);
     }
 
     public void buscar() throws Exception {
@@ -94,17 +85,9 @@ public class SalaController implements Controller {
         int quantidadeEquipamento = input.nextInt();
         input.nextLine();
 
-        List<Equipamento> equipamentos = new ArrayList<>();
-        EquipamentoController equipamentoController = new EquipamentoController();
-        equipamentoController.setInput(this.input);
+        Sala novaSala = SalaFactory.criarSala(numeroSala, capacidade, new ArrayList<>());
+        SalaDAO.editarSala(numeroSala, novaSala);
 
-        for (int i = 0; i < quantidadeEquipamento; i++) {
-            Equipamento equipamento = equipamentoController.criarEquipamento();
-            equipamentos.add(equipamento);
-        }
-
-        Sala novaSala = SalaFactory.criarSala(numeroSala, capacidade, equipamentos);
-        SalaDAO.salvarSala(novaSala);
     }
 
     public void deletar() throws Exception {
