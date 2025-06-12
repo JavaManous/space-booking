@@ -3,6 +3,7 @@ package dal;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.IOException;
 
 import model.Equipamento;
 import utils.Log;
@@ -17,12 +18,14 @@ public abstract class EquipamentoDAO {
 
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(CAMINHO + "/equipamentos.ser"))) {
             oos.writeObject(equipamentos);
+        } catch (IOException e) {
+            Log.setError("Erro ao salvar equipamentos: " + e.getMessage());
+            throw e;
         }
-        Log.setError("Salvando lista de equipamentos. Total: " + equipamentos.size());
     }
 
     @SuppressWarnings("unchecked")
-    public static List<Equipamento> carregarEquipamentos() throws IOException, ClassNotFoundException {
+    public static List<Equipamento> carregarEquipamentos() throws IOException {
         File arquivo = new File(CAMINHO + "/equipamentos.ser");
         if (!arquivo.exists()) {
             return new ArrayList<>();
@@ -31,6 +34,9 @@ public abstract class EquipamentoDAO {
         try (FileInputStream fileIn = new FileInputStream(arquivo);
              ObjectInputStream in = new ObjectInputStream(fileIn)) {
             return (List<Equipamento>) in.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            Log.setError("Erro ao carregar equipamentos: " + e.getMessage());
+            throw new IOException("Erro ao carregar equipamentos.", e);
         }
     }
 }

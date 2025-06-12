@@ -28,7 +28,7 @@ public abstract class ClienteDAO {
             Log.setError("Erro ao listar clientes: " + e.getMessage());
         }
 
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(CAMINHO + "/clientes.ser"))){
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(CAMINHO + "/cliente.ser"))){
             oos.writeObject(clientes);
         }
 

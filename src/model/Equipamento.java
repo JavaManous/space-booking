@@ -65,4 +65,7 @@ public class Equipamento implements Serializable {
                 ", preco=" + preco + "}";
     }
     
+    public Equipamento fromString(String equipamentoStr) {
+        throw new UnsupportedOperationException("Método não implementado");
+    }
 }
