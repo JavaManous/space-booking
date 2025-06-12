@@ -1,8 +1,13 @@
 package view;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
+import controller.EquipamentoController;
 import controller.SalaController;
+import dal.EquipamentoDAO;
+import model.Equipamento;
 import model.Menu;;
 
 public class SalaView extends Menu {
@@ -28,8 +33,6 @@ public class SalaView extends Menu {
         int opcao = 0;
         boolean menu = true;
 
-        salaController.setInput(input);
-
         do {
             mostrarMenu();
 
@@ -38,7 +41,33 @@ public class SalaView extends Menu {
             try {
                 switch (opcao) {
                     case 1:
-                        salaController.criar();
+                        System.out.println("Digite o número da sala:");
+                        int numeroSala = input.nextInt();
+
+                        System.out.println("Digite a capacidade de pessoas da sala:");
+                        int capacidade = input.nextInt();
+
+                        System.out.println("Digite os IDs dos equipamentos (separados por vírgula):");
+
+                        List<Integer> idsEquipamentos = new ArrayList<>();
+                        List<Equipamento> equipamentosDisponiveis = EquipamentoController.listar();
+                        if (equipamentosDisponiveis.isEmpty()) {
+                            System.out.println("Nenhum equipamento cadastrado no sistema.");
+                        } else {
+
+                            for (Equipamento eq : equipamentosDisponiveis) {
+                                System.out.println("ID: " + eq.getId() + " | Nome: " + eq.getNome());
+                            }
+
+                            String idStr = input.next();
+                            String[] ids = idStr.split(",");
+
+                            for (String id : ids) {
+                                idsEquipamentos.add(Integer.parseInt(id.trim()));
+                            }
+                        }
+
+                        salaController.criar(numeroSala, capacidade, idsEquipamentos);
                         break;
                     case 2:
                         salaController.buscar();
@@ -61,7 +90,7 @@ public class SalaView extends Menu {
                         break;
                 }
             } catch (Exception e) {
-                // TODO: handle exception
+
             }
 
         } while (menu);

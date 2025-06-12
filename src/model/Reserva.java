@@ -150,4 +150,8 @@ public class Reserva {
         return "Reserva [id=" + id + ", cliente=" + cliente + ", sala=" + sala + ", dataInicio=" + dataInicio
                 + ", dataFim=" + dataFim + ", valorTotal=" + valorTotal + ", status=" + status + "]";
     }
+
+    public Reserva fromString(String reservaStr) {
+        throw new UnsupportedOperationException("Método não implementado");
+    }
 }

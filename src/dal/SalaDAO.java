@@ -8,61 +8,31 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
-
 import model.Sala;
 import utils.Log;
 
 public abstract class SalaDAO {
     private static final String CAMINHO = "./dados";
+    private static final String ARQUIVO = "/sala.ser";
 
-    public static void salvarSala(Sala sala) throws IOException {
+    public static void salvar(List<Sala> salas) throws IOException {
         File diretorio = new File(CAMINHO);
         diretorio.mkdirs();
 
-        List<Sala> salas = new ArrayList<Sala>();
-        try {
-            salas = listarSalas();
-            salas.add(sala);
-        } catch (Exception e) {
-            System.err.println("Erro ao listar salas: \n" + e.getMessage() + "\n");
-        }
-
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(CAMINHO + "/sala.ser", true))) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(CAMINHO + ARQUIVO))) {
             oos.writeObject(salas);
         }
-
-        System.err.println("Salvando sala: " + sala.toString());
     }
 
-    public static Sala buscarSala(int numeroSala) {
-        // throw new UnsupportedOperationException("Método não implementado");
+    @SuppressWarnings("unchecked")
+    public static List<Sala> carregar() throws IOException, ClassNotFoundException {
 
-        Log.setError("tESTE AJSDFKANMSFENMAEWGMNAGE");
-        return null;
-    }
-
-    public static List<Sala> listarSalas() throws IOException, ClassNotFoundException {
-        File arquivo = new File(CAMINHO + "/salas.ser");
-        if (!arquivo.exists()) {
+        File arquivo = new File(CAMINHO + ARQUIVO);
+        if (!arquivo.exists())
             return new ArrayList<>();
+
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(arquivo))) {
+            return (List<Sala>) ois.readObject();
         }
-
-        try (FileInputStream fileIn = new FileInputStream(arquivo);
-                ObjectInputStream in = new ObjectInputStream(fileIn)) {
-
-            List<Sala> objetoLido = (List<Sala>) in.readObject();
-            System.out.println("Objeto lido: " + objetoLido);
-
-        }
-        return new ArrayList<Sala>();
-
-    }
-
-    public static void editarSala(int numeroSala, Sala sala) throws IOException {
-        throw new UnsupportedOperationException("Método não implementado");
-    }
-
-    public static void deletarSala(int numeroSala) throws IOException {
-        throw new UnsupportedOperationException("Método não implementado");
     }
 }
