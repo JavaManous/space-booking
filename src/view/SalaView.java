@@ -16,10 +16,6 @@ public class SalaView extends Menu {
 
     private String mensagem = "";
 
-    public SalaView(SalaController salaController) {
-        this.salaController = salaController;
-    }
-
     public void mostrarMenu() {
         if (!mensagem.isEmpty()) {
             System.out.println("\n*");
@@ -74,7 +70,7 @@ public class SalaView extends Menu {
                             }
                         }
 
-                        salaController.criar(numeroSala, capacidade, idsEquipamentos);
+                        SalaController.criar(numeroSala, capacidade, idsEquipamentos);
                         break;
                     }
                     case 2: {
@@ -114,7 +110,7 @@ public class SalaView extends Menu {
                             }
                         }
 
-                        salaController.criar(numeroSala, capacidade, idsEquipamentos);
+                        salaController.editar(numeroSala, numeroSala, capacidade, idsEquipamentos);
                         break;
                     }
                     case 5: {

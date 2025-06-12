@@ -1,17 +1,13 @@
 package view;
 
+import java.util.List;
 import java.util.Scanner;
 import controller.EquipamentoController;
+import model.Equipamento;
 
 public class EquipamentoView {
 
-    private EquipamentoController equipamentoController;
-
-    public EquipamentoView(EquipamentoController equipamentoController) {
-        this.equipamentoController = equipamentoController;
-    }
-
-    public void mostrarMenu() {
+    static public void mostrarMenu() {
         System.out.println("\n--- Menu Equipamentos ---");
         System.out.println("1. Cadastrar equipamento");
         System.out.println("2. Listar equipamentos");
@@ -22,8 +18,7 @@ public class EquipamentoView {
         System.out.print("Escolha uma opção: ");
     }
 
-    public void iniciarMenu(Scanner input) {
-        equipamentoController.setInput(input);
+    public static void iniciarMenu(Scanner input) {
         boolean menu = true;
         while (menu) {
             mostrarMenu();
@@ -33,19 +28,19 @@ public class EquipamentoView {
             try {
                 switch (opcao) {
                     case 1:
-                        equipamentoController.criar();
+                        cadastrarEquipamento(input);
                         break;
                     case 2:
-                        equipamentoController.listar();
+                        listarEquipamentos();
                         break;
                     case 3:
-                        equipamentoController.buscar();
+                        buscarEquipamento(input);
                         break;
                     case 4:
-                        equipamentoController.editar();
+                        editarEquipamento(input);
                         break;
                     case 5:
-                        equipamentoController.deletar();
+                        deletarEquipamento(input);
                         break;
                     case 0:
                         menu = false;
@@ -58,6 +53,110 @@ public class EquipamentoView {
             } catch (Exception e) {
                 System.out.println("Erro: " + e.getMessage());
             }
+        }
+    }
+
+    private static void cadastrarEquipamento(Scanner input) {
+        System.out.print("Digite o nome do equipamento: ");
+        String nome = input.nextLine();
+
+        System.out.print("Digite o tipo do equipamento: ");
+        String tipo = input.nextLine();
+
+        System.out.print("Digite o id do equipamento: ");
+        int id = input.nextInt();
+
+        System.out.print("Digite a quantidade: ");
+        int quantidade = input.nextInt();
+
+        System.out.print("Digite o preço: ");
+        float preco = input.nextFloat();
+        input.nextLine();
+
+        try {
+            EquipamentoController.criar(nome, tipo, id, quantidade, preco);
+            System.out.println("Equipamento cadastrado com sucesso!");
+        } catch (Exception e) {
+            System.out.println("Erro ao cadastrar equipamento.");
+        }
+    }
+
+    private static void buscarEquipamento(Scanner input) {
+        System.out.print("Digite o ID do equipamento que deseja buscar: ");
+        int id = input.nextInt();
+        input.nextLine();
+
+        try {
+            Equipamento equipamento = EquipamentoController.buscar(id);
+            if (equipamento != null) {
+                System.out.println("Detalhes do Equipamento:");
+                System.out.println(equipamento);
+            } else {
+                System.out.println("Equipamento não encontrado: " + id);
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao buscar equipamento.");
+        }
+    }
+
+    private static void listarEquipamentos() {
+        try {
+            List<Equipamento> equipamentos = EquipamentoController.listar();
+            if (equipamentos == null || equipamentos.isEmpty()) {
+                System.out.println("Nenhum equipamento encontrado.");
+                return;
+            }
+            System.out.println("Lista de Equipamentos:");
+            for (Equipamento equipamento : equipamentos) {
+                System.out.println(equipamento);
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao listar equipamentos.");
+        }
+    }
+
+    private static void editarEquipamento(Scanner input) {
+        System.out.print("Digite o ID do equipamento que deseja editar: ");
+        int id = input.nextInt();
+        input.nextLine();
+
+        try {
+            Equipamento equipamentoExistente = EquipamentoController.buscar(id);
+            if (equipamentoExistente == null) {
+                System.out.println("Equipamento não encontrado.");
+                return;
+            }
+
+            System.out.print("Digite o novo nome do equipamento: ");
+            String nome = input.nextLine();
+
+            System.out.print("Digite o novo tipo do equipamento: ");
+            String tipo = input.nextLine();
+
+            System.out.print("Digite a nova quantidade: ");
+            int quantidade = input.nextInt();
+
+            System.out.print("Digite o novo preço: ");
+            float preco = input.nextFloat();
+            input.nextLine();
+
+            EquipamentoController.editar(id, nome, tipo, quantidade, preco);
+            System.out.println("Equipamento editado com sucesso!");
+        } catch (Exception e) {
+            System.out.println("Erro ao editar equipamento.");
+        }
+    }
+
+    private static void deletarEquipamento(Scanner input) {
+        System.out.print("Digite o ID do equipamento que deseja deletar: ");
+        int id = input.nextInt();
+        input.nextLine();
+
+        try {
+            EquipamentoController.deletar(id);
+            System.out.println("Equipamento deletado com sucesso!");
+        } catch (Exception e) {
+            System.out.println("Erro ao deletar equipamento.");
         }
     }
 }

@@ -1,9 +1,8 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.Serializable;
 
-public class Equipamento {
+public class Equipamento implements Serializable {
     private String nome, tipo;
     private int id, quantidade;
     private float preco;

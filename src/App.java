@@ -1,22 +1,18 @@
 import java.util.Scanner;
 
 import controller.ClienteController;
-import controller.EquipamentoController;
-import controller.SalaController;
 import view.*;
 
 public class App {
     public static void main(String[] args) throws Exception {
         System.out.println("Olá usuário, bem vindo ao Space Booking!");
 
-        SalaController salaController = new SalaController();
-        SalaView salaView = new SalaView(salaController);
+        SalaView salaView = new SalaView();
 
         ClienteController clienteController = new ClienteController();
         ClienteView clienteView = new ClienteView(clienteController);
 
-        EquipamentoController equipamentoController = new EquipamentoController();
-        EquipamentoView equipamentoView = new EquipamentoView(equipamentoController);
+        EquipamentoView equipamentoView = new EquipamentoView();
 
         Scanner input = new Scanner(System.in);
         MenuGeral menu = new MenuGeral(input, salaView, clienteView, equipamentoView);
