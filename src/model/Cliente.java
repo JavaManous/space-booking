@@ -1,17 +1,22 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Cliente extends Pessoa {
+public class Cliente extends Pessoa implements Serializable {
     private Date dataCadastro;
     private List<Reserva> reservas = new ArrayList<>();
+
+    public Cliente(String nome, String email, String endereco, String cpf, String telefone) {
+        super(0, nome, email, endereco, cpf, telefone); // ID genérico temporário
+        this.dataCadastro = new Date(); // Cria com a data atual
+    }
 
     public Cliente(int id, String nome, String email, String endereco, String cpf, String telefone, Date dataCadastro) {
         super(id, nome, email, endereco, cpf, telefone);
         this.dataCadastro = dataCadastro;
-        
     }
 
     public int calcularFrequencia() {
@@ -25,54 +30,6 @@ public class Cliente extends Pessoa {
             }
         }
         return false;
-    }
-
-    @Override
-    public boolean validarDocumento() {
-        String cpf = getCpf();
-
-        if (cpf == null || cpf.length() != 11) {
-            return false;
-        }
-
-        boolean todosDigitosIguais = true;
-        for (int i = 1; i < cpf.length(); i++) {
-            if (cpf.charAt(i) != cpf.charAt(0)) {
-                todosDigitosIguais = false;
-                break;
-            }
-        }
-
-        if (todosDigitosIguais) {
-            return false;
-        }
-
-        int soma = 0;
-        for (int i = 0; i < 9; i++) {
-            soma += Character.getNumericValue(cpf.charAt(i)) * (10 - i);
-        }
-
-        int primeiroDigito = 11 - (soma % 11);
-        if (primeiroDigito > 9) {
-            primeiroDigito = 0;
-        }
-
-        if (Character.getNumericValue(cpf.charAt(9))!= primeiroDigito) {
-            return false;
-        }
-
-        soma = 0;
-        for (int i = 0; i < 10; i++) {
-            soma += Character.getNumericValue(cpf.charAt(i)) * (11 - i);
-        }
-
-        int segundoDigito = 11 - (soma % 11);
-        if (segundoDigito > 9) {
-            segundoDigito = 0;
-        }
-
-        return Character.getNumericValue(cpf.charAt(10)) == segundoDigito;
-
     }
 
     public Date getDataCadastro() {
