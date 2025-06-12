@@ -23,7 +23,7 @@ public class MenuGeral {
         System.out.println("-- Menu Geral --");
         System.out.println("1. Reservas");
         System.out.println("2. Salas");
-        System.out.println("3. Usuarios");
+        System.out.println("3. Clientes");
         System.out.println("4. Equipamentos");
         System.out.println("5. Sair");
         System.out.println("\nEscolha uma opção:");

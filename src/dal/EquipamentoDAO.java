@@ -30,7 +30,7 @@ public abstract class EquipamentoDAO {
         Log.setError("Salvando equipamento: " + equipamento.toString());
     }
 
-    public static Equipamento buscarEquipamento(int id) {
+    public static Equipamento buscarPorId(int id) {
         try {
             List<Equipamento> equipamentos = listarEquipamentos();
             for (Equipamento e : equipamentos) {

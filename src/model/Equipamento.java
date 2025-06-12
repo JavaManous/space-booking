@@ -1,5 +1,8 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Equipamento {
     private String nome, tipo;
     private int id, quantidade;
@@ -55,15 +58,41 @@ public class Equipamento {
 
     @Override
     public String toString() {
-        return "Equipamento{" + 
-                "nome=" + nome + 
-                ", tipo=" + tipo + 
-                ", id=" + id + 
-                ", quantidade=" + quantidade + 
-                ", preco=" + preco + "}";
+        return "Equipamento [" +
+                "nome=" + nome +
+                ", tipo=" + tipo +
+                ", id=" + id +
+                ", quantidade=" + quantidade +
+                ", preco=" + preco + "]";
     }
-    
-    public Equipamento fromString(String equipamentoStr) {
-        throw new UnsupportedOperationException("Método não implementado");
+
+    public static Equipamento fromString(String equipamentoStr) {
+        equipamentoStr = equipamentoStr.replace("Equipamento [", "").replace("]", "");
+        String[] campos = equipamentoStr.split(", ");
+        String nome = "", tipo = "";
+        int id = 0, quantidade = 0;
+        float preco = 0f;
+
+        for (String campo : campos) {
+            String[] chaveValor = campo.split("=", 2);
+            switch (chaveValor[0]) {
+                case "nome":
+                    nome = chaveValor[1];
+                    break;
+                case "tipo":
+                    tipo = chaveValor[1];
+                    break;
+                case "id":
+                    id = Integer.parseInt(chaveValor[1]);
+                    break;
+                case "quantidade":
+                    quantidade = Integer.parseInt(chaveValor[1]);
+                    break;
+                case "preco":
+                    preco = Float.parseFloat(chaveValor[1]);
+                    break;
+            }
+        }
+        return new Equipamento(nome, tipo, id, quantidade, preco);
     }
 }

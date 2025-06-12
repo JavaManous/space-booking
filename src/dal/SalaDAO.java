@@ -9,7 +9,6 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import model.Sala;
-import utils.Log;
 
 public abstract class SalaDAO {
     private static final String CAMINHO = "./dados";

@@ -18,7 +18,6 @@ public class EquipamentoController {
         this.input = input;
     }
 
-    @Override
     public void criar() {
         try {
             System.out.println("Digite o nome do equipamento: ");
@@ -47,7 +46,6 @@ public class EquipamentoController {
         }
     }
 
-    @Override
     public void buscar() {
         try {
             System.out.println("Digite o ID do equipamento que deseja buscar:");
@@ -83,7 +81,6 @@ public class EquipamentoController {
         return new ArrayList<>();
     }
 
-    @Override
     public void editar() {
         try {
             System.out.println("Digite o ID do equipamento que deseja editar: ");
@@ -121,7 +118,6 @@ public class EquipamentoController {
         }
     }
 
-    @Override
     public void deletar() {
         try {
             System.out.println("Digite o ID do equipamento que deseja deletar: ");
