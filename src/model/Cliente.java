@@ -10,8 +10,8 @@ public class Cliente extends Pessoa implements Serializable {
     private List<Reserva> reservas = new ArrayList<>();
 
     public Cliente(String nome, String email, String endereco, String cpf, String telefone) {
-        super(0, nome, email, endereco, cpf, telefone); // ID genérico temporário
-        this.dataCadastro = new Date(); // Cria com a data atual
+        super(0, nome, email, endereco, cpf, telefone);
+        this.dataCadastro = new Date();
     }
 
     public Cliente(int id, String nome, String email, String endereco, String cpf, String telefone, Date dataCadastro) {
