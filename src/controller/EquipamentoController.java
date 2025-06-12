@@ -1,146 +1,74 @@
 package controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
-
 import dal.EquipamentoDAO;
 import factory.EquipamentoFactory;
-import model.Controller;
 import model.Equipamento;
 import utils.Log;
 
 public class EquipamentoController {
-    private Scanner input;
 
-    public void setInput(Scanner input) {
-        this.input = input;
+    public void criar(String nome, String tipo, int id, int quantidade, float preco) throws IOException {
+        List<Equipamento> equipamentos = carregarTodos();
+        Equipamento equipamento = EquipamentoFactory.criarEquipamento(nome, tipo, id, quantidade, preco);
+        equipamentos.add(equipamento);
+        EquipamentoDAO.salvarEquipamentos(equipamentos);
     }
 
-    @Override
-    public void criar() {
-        try {
-            System.out.println("Digite o nome do equipamento: ");
-            String nome = input.nextLine();
+    public Equipamento buscar(int id) throws IOException {
+        List<Equipamento> equipamentos = carregarTodos();
+        for (Equipamento e : equipamentos) {
+            if (e.getId() == id) {
+                return e;
+            }
+        }
+        throw new IOException("Equipamento não encontrado ao buscar. ID: " + id);
+    }
 
-            System.out.println("Digite o tipo do equipamento: ");
-            String tipo = input.nextLine();
+    public List<Equipamento> listar() throws IOException {
+        return carregarTodos();
+    }
 
-            System.out.println("Digite o id do equipamento: ");
-            int id = input.nextInt();
-
-            System.out.println("Digite a quantidade: ");
-            int quantidade = input.nextInt();
-
-            System.out.println("Digite o preço: ");
-            float preco = input.nextFloat();
-            input.nextLine();
-
-            Equipamento equipamento = EquipamentoFactory.criarEquipamento(nome, tipo, id, quantidade, preco);
-            EquipamentoDAO.salvarEquipamento(equipamento);
-            System.out.println("Equipamento cadastrado com sucesso!");
-            Log.setError("Equipamento cadastrado: " + equipamento.getId() + " - " + equipamento.getNome());
-        } catch (Exception e) {
-            Log.setError("Erro ao criar equipamento: " + e.getMessage());
-            System.out.println("Erro ao cadastrar equipamento.");
+    public void editar(int id, String nome, String tipo, int quantidade, float preco) throws IOException {
+        List<Equipamento> equipamentos = carregarTodos();
+        boolean encontrado = false;
+        for (int i = 0; i < equipamentos.size(); i++) {
+            if (equipamentos.get(i).getId() == id) {
+                equipamentos.set(i, EquipamentoFactory.criarEquipamento(nome, tipo, id, quantidade, preco));
+                encontrado = true;
+                break;
+            }
+        }
+        if (encontrado) {
+            EquipamentoDAO.salvarEquipamentos(equipamentos);
+        } else {
+            throw new IOException("Equipamento não encontrado para edição. ID: " + id);
         }
     }
 
-    @Override
-    public void buscar() {
-        try {
-            System.out.println("Digite o ID do equipamento que deseja buscar:");
-            int id = input.nextInt();
-            input.nextLine();
-
-            Equipamento equipamento = EquipamentoDAO.buscarEquipamento(id);
-            if (equipamento != null) {
-                System.out.println("Detalhes do Equipamento:");
-                System.out.println(equipamento);
-            } else {
-                System.out.println("Equipamento não encontrado: " + id);
-                Log.setError("Equipamento não encontrado ao buscar. ID: " + id);
-            }
-        } catch (Exception e) {
-            Log.setError("Erro ao buscar equipamento: " + e.getMessage());
-            System.out.println("Erro ao buscar equipamento.");
+    public void deletar(int id) throws IOException {
+        List<Equipamento> equipamentos = carregarTodos();
+        boolean removido = equipamentos.removeIf(e -> e.getId() == id);
+        if (removido) {
+            EquipamentoDAO.salvarEquipamentos(equipamentos);
+        } else {
+            throw new IOException("Equipamento não encontrado para exclusão. ID: " + id);
         }
     }
 
-    public static List<Equipamento> listar() {
-        try {
-            List<Equipamento> equipamentos = EquipamentoDAO.listarEquipamentos();
-            if (equipamentos.isEmpty()) {
-                return new ArrayList<>();
-            }
-
-            return equipamentos;
-        } catch (Exception e) {
-            Log.setError("Erro ao listar equipamentos: " + e.getMessage());
-            System.out.println("Erro ao listar equipamentos.");
-        }
-        return new ArrayList<>();
+    public int gerarNovoId() throws IOException {
+        List<Equipamento> equipamentos = carregarTodos();
+        if (equipamentos.isEmpty()) return 1;
+        return equipamentos.stream().mapToInt(Equipamento::getId).max().getAsInt() + 1;
     }
 
-    @Override
-    public void editar() {
+    private List<Equipamento> carregarTodos() throws IOException {
         try {
-            System.out.println("Digite o ID do equipamento que deseja editar: ");
-            int id = input.nextInt();
-            input.nextLine();
-
-            Equipamento equipamentoExistente = EquipamentoDAO.buscarEquipamento(id);
-            if (equipamentoExistente == null) {
-                System.out.println("Equipamento não encontrado: " + id);
-                Log.setError("Equipamento não encontrado para edição. ID: " + id);
-                return;
-            }
-
-            System.out.println("Digite o novo nome do equipamento: ");
-            String nome = input.nextLine();
-
-            System.out.println("Digite o novo tipo do equipamento: ");
-            String tipo = input.nextLine();
-
-            System.out.println("Digite a nova quantidade: ");
-            int quantidade = input.nextInt();
-
-            System.out.println("Digite o novo preço: ");
-            float preco = input.nextFloat();
-            input.nextLine();
-
-            Equipamento equipamentoAtualizado = EquipamentoFactory.criarEquipamento(nome, tipo, id, quantidade, preco);
-
-            EquipamentoDAO.atualizarEquipamento(id, equipamentoAtualizado);
-            System.out.println("Equipamento editado com sucesso!");
-            Log.setError("Equipamento editado: " + id);
-        } catch (Exception e) {
-            Log.setError("Erro ao editar equipamento: " + e.getMessage());
-            System.out.println("Erro ao editar equipamento.");
-        }
-    }
-
-    @Override
-    public void deletar() {
-        try {
-            System.out.println("Digite o ID do equipamento que deseja deletar: ");
-            int id = input.nextInt();
-            input.nextLine();
-
-            Equipamento equipamento = EquipamentoDAO.buscarEquipamento(id);
-            if (equipamento == null) {
-                System.out.println("Equipamento não encontrado: " + id);
-                Log.setError("Equipamento não encontrado para exclusão. ID: " + id);
-                return;
-            }
-
-            EquipamentoDAO.removerEquipamento(id);
-            System.out.println("Equipamento deletado com sucesso!");
-            Log.setError("Equipamento deletado: " + id);
-        } catch (Exception e) {
-            Log.setError("Erro ao deletar equipamento: " + e.getMessage());
-            System.out.println("Erro ao deletar equipamento.");
+            return EquipamentoDAO.carregarEquipamentos();
+        } catch (IOException e) {
+            Log.setError("Erro ao carregar equipamentos: " + e.getMessage());
+            return null;
         }
     }
 }

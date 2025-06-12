@@ -1,6 +1,8 @@
 package model;
 
-public class Equipamento {
+import java.io.Serializable;
+
+public class Equipamento implements Serializable {
     private String nome, tipo;
     private int id, quantidade;
     private float preco;
