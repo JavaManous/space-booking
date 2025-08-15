@@ -1,18 +1,48 @@
-## Getting Started
+# Space Booking
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+Sistema de reserva de espaços desenvolvido em Java, com interface via linha de comando. O projeto permite criar e gerenciar clientes, salas e reservas, funcionando como um sistema de agendamento de espaços simples e funcional para uso organizacional.
 
-## Folder Structure
+---
 
-The workspace contains two folders by default, where:
+## ✅ Funcionalidades
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+- Cadastro de clientes
+- Cadastro e gerenciamento de salas
+- Criação, visualização e cancelamento de reservas
+- Menus interativos via terminal
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+---
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+## 🛠 Tecnologias Utilizadas
 
-## Dependency Management
+- **Linguagem:** Java
+- **Paradigma:** Orientação a Objetos
+- **Interface:** Console / CLI
 
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+---
+
+## 🧠 Organização do Sistema
+
+O projeto utiliza o padrão MVC (Model-View-Controller):
+
+- Model: classes de dados (Cliente, Sala, Reserva)
+- Controller: regras de negócio e fluxo do programa
+- View: interação com o usuário via console
+- App.java: classe principal que inicia o sistema e exibe o menu principal
+
+---
+
+## ▶️ Como Executar
+
+### Compilação via terminal:
+
+```bash
+# Navegue até a pasta src
+cd src
+
+# Compile os arquivos Java
+javac App.java
+
+# Execute
+java App
+```
